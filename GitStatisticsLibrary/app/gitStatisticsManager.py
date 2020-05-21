@@ -1,20 +1,27 @@
 import git
-import shutil
 import json
+import datetime
 from os import path
 from pydriller import RepositoryMining
 from pydriller.metrics.process.change_set import ChangeSet
 from pydriller.metrics.process.lines_count import LinesCount
 
 class GitStatistics:
-    def __init__(self, commitsTotalNumber, filesCommitedTogetherAverage, filesCommitedTogetherMax, sumOfLinesInRepository):
+    def __init__(self, commitsTotalNumber, filesCommitedTogetherAverage, filesCommitedTogetherMax, sumOfLinesInRepository, allCommits):
         self.commitsTotalNumber = commitsTotalNumber
         self.filesCommitedTogetherAverage = filesCommitedTogetherAverage
         self.filesCommitedTogetherMax = filesCommitedTogetherMax
         self.sumOfLinesInRepository = sumOfLinesInRepository
+        self.allCommits = allCommits
 
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+
+class Commit:
+    def __init__(self, author, date, hash):
+        self.author = author
+        self.date = date
+        self.hash = hash
 
 def getGitStatistics(gitRepositoryPath):
     pathToTemporaryRepository = "./temporaryRepository"
@@ -22,7 +29,7 @@ def getGitStatistics(gitRepositoryPath):
         git.Repo.clone_from(gitRepositoryPath, pathToTemporaryRepository)
     allCommits = []
     for commit in RepositoryMining(pathToTemporaryRepository).traverse_commits():
-        allCommits.append(commit)
+        allCommits.append(Commit(commit.author.name, str(commit.committer_date), commit.hash))
         
     commitsTotalNumber = len(allCommits)
     firstCommitHash = allCommits[0].hash
@@ -40,6 +47,6 @@ def getGitStatistics(gitRepositoryPath):
     for file in linesDictionary.count():
         sumOfLinesInRepository += linesDictionary.count()[file]
 
-    return GitStatistics(commitsTotalNumber, filesCommitedTogether.avg(), filesCommitedTogether.max(), sumOfLinesInRepository)          
+    return GitStatistics(commitsTotalNumber, filesCommitedTogether.avg(), filesCommitedTogether.max(), sumOfLinesInRepository, allCommits)          
     
 

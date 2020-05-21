@@ -5,4 +5,4 @@ import json
 @app.route('/')
 @app.route('/index')
 def index():
-    return getGitStatistics("https://github.com/github/auto-complete-element.git").toJSON()
+    return getGitStatistics("https://github.com/mdamek/RepositoryAnalyzer.git").toJSON()
