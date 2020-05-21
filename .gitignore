@@ -530,3 +530,5 @@ gitstatistics.py
 /GitStatisticsLibrary/*.flaskenv
 /GitStatisticsLibrary/.vscode/.ropeproject
 /GitStatisticsLibrary/.vscode/settings.json
+/GitStatisticsWebApi/git-statistics-web-app/.vscode/launch.json
+/GitStatisticsWebApi/git-statistics-web-app/.vscode/tasks.json
