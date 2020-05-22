@@ -1,5 +1,4 @@
-import styled from 'styled-components';
-
+import styled from 'styled-components'
 
 const Label = styled.label`
   display: flex;
@@ -7,6 +6,6 @@ const Label = styled.label`
   align-items: center;
   line-height: 1.2;
   color: palevioletred;
-`;
+`
 
-export default Label;
+export default Label

@@ -1,5 +1,4 @@
-import styled from 'styled-components';
-
+import styled from 'styled-components'
 
 const Button = styled.button`
   background: transparent;
@@ -10,4 +9,4 @@ const Button = styled.button`
   text-align:center;
 `
 
-export default Button;
+export default Button

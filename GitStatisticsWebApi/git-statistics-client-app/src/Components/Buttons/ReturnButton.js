@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const ReturnButton = styled.button`
     position: absolute;
@@ -11,4 +11,4 @@ const ReturnButton = styled.button`
     padding: 0.25em 1em;
     text-align:center;
 `
-export default ReturnButton;
+export default ReturnButton

@@ -1,30 +1,38 @@
-import React, { useState } from 'react';
-import './App.css';
-import WaitingForInput from './WaitingForInput.js';
-import ReadyStatistics from './ReadyStatistics.js';
-import ReturnButton from './ReturnButton.js'
+import React, { useState } from 'react'
+import './App.css'
+import Entrance from './Components/Entrance/Entrance.js'
+import Statistics from './Components/StatisticsView/StatisticsView.js'
+import ReturnButton from './Components/Buttons/ReturnButton.js'
 const App = () => {
-
-  const [resultAvaliable, setResultAvaliable] = useState(false);
+  const [resultAvaliable, setResultAvaliable] = useState(false)
   const [gitStatistics, setGitStatistics] = useState({
-    commitsTotalNumber:0,
-    filesCommitedTogetherAverage:0,
-    filesCommitedTogetherMax:0,
-    sumOfLinesInRepository:0
-  });
+    commitsTotalNumber: 0,
+    filesCommitedTogetherAverage: 0,
+    filesCommitedTogetherMax: 0,
+    sumOfLinesInRepository: 0
+  })
 
   const handleReturn = () => {
-    setResultAvaliable(false);
+    setResultAvaliable(false)
   }
 
   return (
     <div className="App">
       <header className="App-header">
-        {resultAvaliable ? <ReadyStatistics gitStatistics={gitStatistics}/> : <WaitingForInput setResultAvaliable={setResultAvaliable} setGitStatistics={setGitStatistics}/>}
-      <ReturnButton onClick={handleReturn}>Return</ReturnButton>
+        {resultAvaliable ? (
+          <Statistics gitStatistics={gitStatistics} />
+        ) : (
+          <Entrance
+            setResultAvaliable={setResultAvaliable}
+            setGitStatistics={setGitStatistics}
+          />
+        )}
+        {resultAvaliable ? (
+          <ReturnButton onClick={handleReturn}>Return</ReturnButton>
+        ) : null}
       </header>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
