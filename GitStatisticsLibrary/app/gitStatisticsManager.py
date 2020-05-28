@@ -1,6 +1,6 @@
 import git
 import json
-import datetime
+from datetime import datetime
 from os import path
 from pydriller import RepositoryMining
 from pydriller.metrics.process.change_set import ChangeSet
@@ -23,15 +23,27 @@ class Commit:
         self.date = date
         self.hash = hash
 
-def getGitStatistics(gitRepositoryPath):
+def getGitStatistics(gitRepositoryPath, startDate, endDate):
+
+    if startDate is not None:
+        validStartDate = datetime.strptime(startDate, '%Y-%m-%d')
+    else:
+        validStartDate = None
+    if endDate is not None:
+        validEndDate = datetime.strptime(endDate, '%Y-%m-%d')
+    else:
+        validEndDate = None
+
     pathToTemporaryRepository = "./temporaryRepository"
     if not path.exists(pathToTemporaryRepository):
         git.Repo.clone_from(gitRepositoryPath, pathToTemporaryRepository)
     allCommits = []
-    for commit in RepositoryMining(pathToTemporaryRepository).traverse_commits():
+    for commit in RepositoryMining(pathToTemporaryRepository, since=validStartDate, to=validEndDate).traverse_commits():
         allCommits.append(Commit(commit.author.name, str(commit.committer_date), commit.hash))
         
     commitsTotalNumber = len(allCommits)
+    if commitsTotalNumber is 0:
+        return GitStatistics(0, 0, 0, 0, [])
     firstCommitHash = allCommits[0].hash
     lastCommitHash = allCommits[len(allCommits) - 1].hash
 

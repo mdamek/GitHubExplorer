@@ -1,4 +1,5 @@
-﻿using git_statistics_web_app.Models;
+﻿using System;
+using git_statistics_web_app.Models;
 using git_statistics_web_app.Services.ExternalServicesProviders;
 
 namespace git_statistics_web_app.Services.GitService
@@ -11,9 +12,10 @@ namespace git_statistics_web_app.Services.GitService
         {
             _gitStatisticsProvider = gitStatisticsProvider;
         }
-        public GitStatisticsDto GetGitStatistics()
+
+        public GitStatisticsDto GetGitStatistics(string gitRepositoryAddress, DateTime? startDate, DateTime? endDate)
         {
-            return _gitStatisticsProvider.GetGitStatisticsForUrl();
+            return _gitStatisticsProvider.GetGitStatisticsForUrl(gitRepositoryAddress, startDate, endDate);
         }
     }
 }

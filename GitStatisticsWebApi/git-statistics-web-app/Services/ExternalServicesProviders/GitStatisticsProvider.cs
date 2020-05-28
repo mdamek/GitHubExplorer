@@ -15,12 +15,16 @@ namespace git_statistics_web_app.Services.ExternalServicesProviders
             this._gitStatisticsLibraryUrl = configuration["GitStatisticsLibrary"];
         }
 
-        public GitStatisticsDto GetGitStatisticsForUrl()
+        public GitStatisticsDto GetGitStatisticsForUrl(string gitRepositoryAddress, DateTime? startDate, DateTime? endDate)
         {
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(_gitStatisticsLibraryUrl);
-                var responseTask = client.GetAsync(_statisticsRepositoryEndpoint);
+                var combinedUrl = _statisticsRepositoryEndpoint;
+                combinedUrl += "?gitRepositoryAddress=" + Uri.EscapeDataString(gitRepositoryAddress);
+                if(startDate != null) combinedUrl += "&startDate=" + startDate.Value.ToString("yyyy-MM-dd");
+                if(endDate != null) combinedUrl += "&endDate=" + endDate.Value.ToString("yyyy-MM-dd");
+                var responseTask = client.GetAsync(combinedUrl);
                 responseTask.Wait();
                 var result = responseTask.Result;
                 if (result.IsSuccessStatusCode)

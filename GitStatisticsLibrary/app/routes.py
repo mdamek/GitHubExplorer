@@ -1,11 +1,15 @@
 from app import app
 from .gitStatisticsManager import getGitStatistics
 import json
-from flask import Response
+import urllib.parse
+from flask import Response, request
 @app.route('/')
 @app.route('/getRepositoryStatistics')
 def index():
-    response = Response(response=getGitStatistics("https://github.com/supermamon/Reposi3.git").toJSON(),
+    gitEncodedAddress = request.args.get('gitRepositoryAddress')
+    startDate = request.args.get('startDate')
+    endDate = request.args.get('endDate')
+    response = Response(response=getGitStatistics(gitEncodedAddress, startDate, endDate).toJSON(),
                     status=200,
                     mimetype="application/json")
     return response
