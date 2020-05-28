@@ -30,13 +30,14 @@ const Entrance = ({ setResultAvaliable, setGitStatistics }) => {
           sumOfLinesInRepository: json.sumOfLinesInRepository,
           allCommits: json.allCommits
         })
+        setResultAvaliable(true);
       })
       .catch(e => {
         console.log(e);
       });
-      setResultAvaliable(true);
-      }
       
+      }
+
   const handleChange = event => {
     setGitLink(event.target.value)
   }
