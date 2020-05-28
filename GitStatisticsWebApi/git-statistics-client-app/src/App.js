@@ -9,7 +9,14 @@ const App = () => {
     commitsTotalNumber: 0,
     filesCommitedTogetherAverage: 0,
     filesCommitedTogetherMax: 0,
-    sumOfLinesInRepository: 0
+    sumOfLinesInRepository: 0,
+    allCommits: [
+      {
+        author: "",
+        date: "",
+        hash: ""
+      }
+    ]
   })
 
   const handleReturn = () => {

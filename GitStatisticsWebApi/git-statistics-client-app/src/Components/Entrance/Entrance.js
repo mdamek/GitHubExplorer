@@ -12,15 +12,12 @@ const Entrance = ({ setResultAvaliable, setGitStatistics }) => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const handleSubmit = event => {
-    
     event.preventDefault()
     const endocedGithubUri = encodeURIComponent(gitLink)
     setGitLink('https://github.com/mdamek/IntegrationProject.git')
     setStartDate('');
     setEndDate('');
     let validUrl = 'api/GitStatistics?gitRepositoryAddress=' + endocedGithubUri;
-
-
     validUrl += startDate ? '&startDate=' + startDate.toLocaleDateString("en-US") : "";
     validUrl += endDate ? '&endDate=' + endDate.toLocaleDateString("en-US") : "";
     fetch(validUrl)
@@ -30,15 +27,19 @@ const Entrance = ({ setResultAvaliable, setGitStatistics }) => {
           commitsTotalNumber: json.commitsTotalNumber,
           filesCommitedTogetherAverage: json.filesCommitedTogetherAverage,
           filesCommitedTogetherMax: json.filesCommitedTogetherMax,
-          sumOfLinesInRepository: json.sumOfLinesInRepository
+          sumOfLinesInRepository: json.sumOfLinesInRepository,
+          allCommits: json.allCommits
         })
-        setResultAvaliable(true)
       })
-  }
+      .catch(e => {
+        console.log(e);
+      });
+      setResultAvaliable(true);
+      }
+      
   const handleChange = event => {
     setGitLink(event.target.value)
   }
-
   const cleanDates = () => {
     setStartDate();
     setEndDate();

@@ -5,7 +5,7 @@ const Wrapper = styled.div`
 `
 
 const Statistics = ({ gitStatistics }) => {
-  const { commitsTotalNumber, filesCommitedTogetherAverage, filesCommitedTogetherMax, sumOfLinesInRepository } = gitStatistics
+  const { commitsTotalNumber, filesCommitedTogetherAverage, filesCommitedTogetherMax, sumOfLinesInRepository, allCommits } = gitStatistics;
   return (
     <Wrapper>
       <label>
@@ -33,7 +33,12 @@ Statistics.propTypes = {
     commitsTotalNumber: PropTypes.number,
     filesCommitedTogetherAverage: PropTypes.number,
     filesCommitedTogetherMax: PropTypes.number,
-    sumOfLinesInRepository: PropTypes.number
+    sumOfLinesInRepository: PropTypes.number,
+    allCommits: PropTypes.arrayOf(PropTypes.shape({
+      author: PropTypes.string,
+      date: PropTypes.date,
+      hash: PropTypes.string
+    }))
   }
 }
 
