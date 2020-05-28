@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
-import './App.css'
-import Entrance from './Components/Entrance/Entrance.js'
-import Statistics from './Components/StatisticsView/StatisticsView.js'
-import ReturnButton from './Components/Buttons/ReturnButton.js'
+import "./App.css";
+
+import React, { useState } from "react";
+
+import Entrance from "./Components/Entrance/Entrance.js";
+import ReturnButton from "./Components/Buttons/ReturnButton.js";
+import Statistics from "./Components/StatisticsView/StatisticsView.js";
+
 const App = () => {
-  const [resultAvaliable, setResultAvaliable] = useState(false)
+  const [resultAvaliable, setResultAvaliable] = useState(false);
   const [gitStatistics, setGitStatistics] = useState({
     commitsTotalNumber: 0,
     filesCommitedTogetherAverage: 0,
@@ -14,14 +17,14 @@ const App = () => {
       {
         author: "",
         date: "",
-        hash: ""
-      }
-    ]
-  })
+        hash: "",
+      },
+    ],
+  });
 
   const handleReturn = () => {
-    setResultAvaliable(false)
-  }
+    setResultAvaliable(false);
+  };
 
   return (
     <div className="App">
@@ -39,7 +42,7 @@ const App = () => {
         ) : null}
       </header>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
