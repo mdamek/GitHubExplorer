@@ -1,5 +1,6 @@
 import git
 import json
+import os, shutil, stat
 from datetime import datetime
 from os import path
 from pydriller import RepositoryMining
@@ -23,6 +24,10 @@ class Commit:
         self.date = date
         self.hash = hash
 
+def on_rm_error( func, path, exc_info):
+        os.chmod( path, stat.S_IWRITE )
+        os.unlink( path )
+
 def getGitStatistics(gitRepositoryPath, startDate, endDate):
 
     if startDate is not None:
@@ -43,6 +48,7 @@ def getGitStatistics(gitRepositoryPath, startDate, endDate):
         
     commitsTotalNumber = len(allCommits)
     if commitsTotalNumber is 0:
+        shutil.rmtree( pathToTemporaryRepository, onerror = on_rm_error )
         return GitStatistics(0, 0, 0, 0, [])
     firstCommitHash = allCommits[0].hash
     lastCommitHash = allCommits[len(allCommits) - 1].hash
@@ -58,6 +64,10 @@ def getGitStatistics(gitRepositoryPath, startDate, endDate):
     sumOfLinesInRepository = 0
     for file in linesDictionary.count():
         sumOfLinesInRepository += linesDictionary.count()[file]
+
+    
+
+    shutil.rmtree( pathToTemporaryRepository, onerror = on_rm_error )
 
     return GitStatistics(commitsTotalNumber, filesCommitedTogether.avg(), filesCommitedTogether.max(), sumOfLinesInRepository, allCommits)          
     
