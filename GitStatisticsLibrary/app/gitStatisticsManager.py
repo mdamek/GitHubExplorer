@@ -40,8 +40,10 @@ def getGitStatistics(gitRepositoryPath, startDate, endDate):
         validEndDate = None
 
     pathToTemporaryRepository = "./temporaryRepository"
-    if not path.exists(pathToTemporaryRepository):
-        git.Repo.clone_from(gitRepositoryPath, pathToTemporaryRepository)
+    
+    if path.exists(pathToTemporaryRepository):
+        shutil.rmtree( pathToTemporaryRepository, onerror = on_rm_error )
+    git.Repo.clone_from(gitRepositoryPath, pathToTemporaryRepository)
     allCommits = []
     for commit in RepositoryMining(pathToTemporaryRepository, since=validStartDate, to=validEndDate).traverse_commits():
         allCommits.append(Commit(commit.author.name, str(commit.committer_date), commit.hash))
@@ -64,8 +66,6 @@ def getGitStatistics(gitRepositoryPath, startDate, endDate):
     sumOfLinesInRepository = 0
     for file in linesDictionary.count():
         sumOfLinesInRepository += linesDictionary.count()[file]
-
-    
 
     shutil.rmtree( pathToTemporaryRepository, onerror = on_rm_error )
 
