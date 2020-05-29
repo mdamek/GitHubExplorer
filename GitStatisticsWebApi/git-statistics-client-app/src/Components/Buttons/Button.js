@@ -6,7 +6,16 @@ const Button = styled.button`
   border: 2px solid palevioletred;
   color: palevioletred;
   padding: 0.25em 1em;
-  text-align: center;
+  outline: 0;
+  margin-top: 25px;
+  width: 10%;
+  font-size: 20px;
+
+  &:hover{
+    outline: none !important;
+    outline-offset: none !important;
+    cursor: pointer;
+  }
 `;
 
 export default Button;

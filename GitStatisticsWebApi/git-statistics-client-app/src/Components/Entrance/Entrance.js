@@ -18,8 +18,9 @@ const GlobalWrapper = {
   left: 0,
   bottom: 0,
   right: 0,
-  overflow: "auto",
+  overflow: "hidden",
 };
+
 const Entrance = ({ setResultAvaliable, setGitStatistics }) => {
   const [gitLink, setGitLink] = useState(
     "https://github.com/mdamek/TampermonkeyScripts.git"
@@ -42,7 +43,7 @@ const Entrance = ({ setResultAvaliable, setGitStatistics }) => {
       ? "&endDate=" + endDate.toLocaleDateString("en-US")
       : "";
     fetch(validUrl)
-      .then(response => {
+      .then((response) => {
         if (response.ok) {
           return response.json();
         } else {
@@ -60,7 +61,7 @@ const Entrance = ({ setResultAvaliable, setGitStatistics }) => {
         toggleBlocking();
         setResultAvaliable(true);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
         toggleBlocking();
       });
@@ -69,7 +70,8 @@ const Entrance = ({ setResultAvaliable, setGitStatistics }) => {
   const handleChange = (event) => {
     setGitLink(event.target.value);
   };
-  const cleanDates = () => {
+  const cleanDates = (event) => {
+    event.preventDefault();
     setStartDate();
     setEndDate();
   };
@@ -83,11 +85,14 @@ const Entrance = ({ setResultAvaliable, setGitStatistics }) => {
       tag="div"
       style={GlobalWrapper}
       blocking={blocking}
-      loader={<Loader type="line-scale" active color="rgba(255,99,132,1)"/>}
+      loader={<Loader type="line-scale" active color="rgba(255,99,132,1)" />}
     >
-      <form onSubmit={handleSubmit}>
+      <form
+        style={{ position: "absolute", top: "30%", left: 0, right: 0}}
+        onSubmit={handleSubmit}
+      >
         <Label>
-          Enter the link to the github repository you want to learn more about
+          Enter the link to the GitHub repository you want to learn more about!
         </Label>
         <Input
           type="text"
@@ -95,23 +100,44 @@ const Entrance = ({ setResultAvaliable, setGitStatistics }) => {
           onChange={(e) => handleChange(e)}
           value={gitLink}
         />
-        <DatePicker
-          selected={startDate}
-          onChange={(date) => setStartDate(date)}
-          selectsStart
-          startDate={startDate}
-          endDate={endDate}
-        />
-        <DatePicker
-          selected={endDate}
-          onChange={(date) => setEndDate(date)}
-          selectsEnd
-          startDate={startDate}
-          endDate={endDate}
-          minDate={startDate}
-        />
-        <Button onClick={cleanDates}>Clean dates</Button>
-        <Button type="submit">Explore!</Button>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <div style={{ marginRight: "5px" }}>
+            <DatePicker
+              placeholderText="Since..."
+              selected={startDate}
+              className={{ width: "100%" }}
+              onChange={(date) => setStartDate(date)}
+              selectsStart
+              startDate={startDate}
+              endDate={endDate}
+            />
+          </div>
+          <div style={{ marginLeft: "5px" }}>
+            <DatePicker
+              placeholderText="To..."
+              selected={endDate}
+              onChange={(date) => setEndDate(date)}
+              selectsEnd
+              startDate={startDate}
+              endDate={endDate}
+              minDate={startDate}
+            />
+          </div>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            flexBasis: "25em",
+          }}
+        >
+          <Button style={{ marginRight: "2px" }} onClick={cleanDates}>
+            Clean dates
+          </Button>
+          <Button style={{ marginLeft: "2px" }} type="submit">
+            Explore!
+          </Button>
+        </div>
       </form>
     </BlockUi>
   );
