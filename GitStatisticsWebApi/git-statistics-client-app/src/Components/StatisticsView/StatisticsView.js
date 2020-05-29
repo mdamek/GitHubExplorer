@@ -1,9 +1,12 @@
 import { Bar } from "react-chartjs-2";
+import NumbericalStatistics from "../NumericalStatistics/NumericalStatistics.js";
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  display: flex;
+`;
 
 const Statistics = ({ gitStatistics }) => {
   const {
@@ -116,14 +119,22 @@ const Statistics = ({ gitStatistics }) => {
   return (
     <>
       <Wrapper>
-        <label>commitsTotalNumber:</label>
-        {commitsTotalNumber}
-        <label>filesCommitedTogetherAverage:</label>
-        {filesCommitedTogetherAverage}
-        <label>filesCommitedTogetherMax:</label>
-        {filesCommitedTogetherMax}
-        <label>sumOfLinesInRepository:</label>
-        {sumOfLinesInRepository}
+        <NumbericalStatistics
+          labelText="Commits total"
+          value={commitsTotalNumber}
+        />
+        <NumbericalStatistics
+          labelText="Lines of code"
+          value={sumOfLinesInRepository}
+        />
+        <NumbericalStatistics
+          labelText="Avg commited together"
+          value={filesCommitedTogetherAverage}
+        />
+        <NumbericalStatistics
+          labelText="Max commited together"
+          value={filesCommitedTogetherMax}
+        />
       </Wrapper>
       <Bar
         data={createDataForTimeDistributionTime}

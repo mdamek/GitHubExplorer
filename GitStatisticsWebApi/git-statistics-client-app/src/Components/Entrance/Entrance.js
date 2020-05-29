@@ -30,7 +30,7 @@ const Entrance = ({ setResultAvaliable, setGitStatistics }) => {
   const [blocking, setBlocking] = useState(false);
   const handleSubmit = (event) => {
     event.preventDefault();
-    toggleBlocking();
+    startBlocking();
     const endocedGithubUri = encodeURIComponent(gitLink);
     setGitLink("https://github.com/mdamek/TampermonkeyScripts.git");
     setStartDate("");
@@ -47,6 +47,7 @@ const Entrance = ({ setResultAvaliable, setGitStatistics }) => {
         if (response.ok) {
           return response.json();
         } else {
+          stopBlocking();
           throw new Error("Something went wrong");
         }
       })
@@ -58,12 +59,11 @@ const Entrance = ({ setResultAvaliable, setGitStatistics }) => {
           sumOfLinesInRepository: json.sumOfLinesInRepository,
           allCommits: json.allCommits,
         });
-        toggleBlocking();
+        stopBlocking();
         setResultAvaliable(true);
       })
       .catch((error) => {
         console.log(error);
-        toggleBlocking();
       });
   };
 
@@ -76,8 +76,12 @@ const Entrance = ({ setResultAvaliable, setGitStatistics }) => {
     setEndDate();
   };
 
-  const toggleBlocking = () => {
-    setBlocking(!blocking);
+  const startBlocking = () => {
+    setBlocking(true);
+  };
+
+  const stopBlocking = () => {
+    setBlocking(false);
   };
 
   return (
@@ -85,6 +89,7 @@ const Entrance = ({ setResultAvaliable, setGitStatistics }) => {
       tag="div"
       style={GlobalWrapper}
       blocking={blocking}
+      keepInView={blocking}
       loader={<Loader type="line-scale" active color="rgba(255,99,132,1)" />}
     >
       <form

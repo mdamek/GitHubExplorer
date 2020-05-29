@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Configuration;
 using System.Net.Http;
+using System.Threading;
 using git_statistics_web_app.Models;
 
 namespace git_statistics_web_app.Services.ExternalServicesProviders
@@ -19,11 +20,12 @@ namespace git_statistics_web_app.Services.ExternalServicesProviders
         {
             using (var client = new HttpClient())
             {
+                client.Timeout = new TimeSpan(10,10,10);
                 client.BaseAddress = new Uri(_gitStatisticsLibraryUrl);
                 var combinedUrl = _statisticsRepositoryEndpoint;
                 combinedUrl += "?gitRepositoryAddress=" + Uri.EscapeDataString(gitRepositoryAddress);
-                if(startDate != null) combinedUrl += "&startDate=" + startDate.Value.ToString("yyyy-MM-dd");
-                if(endDate != null) combinedUrl += "&endDate=" + endDate.Value.ToString("yyyy-MM-dd");
+                if (startDate != null) combinedUrl += "&startDate=" + startDate.Value.ToString("yyyy-MM-dd");
+                if (endDate != null) combinedUrl += "&endDate=" + endDate.Value.ToString("yyyy-MM-dd");
                 var responseTask = client.GetAsync(combinedUrl);
                 responseTask.Wait();
                 var result = responseTask.Result;
