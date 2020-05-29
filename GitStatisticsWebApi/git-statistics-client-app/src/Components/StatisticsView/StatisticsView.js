@@ -1,4 +1,5 @@
-import { Bar } from "react-chartjs-2";
+import { Bar, Line } from "react-chartjs-2";
+
 import NumbericalStatistics from "../NumericalStatistics/NumericalStatistics.js";
 import PropTypes from "prop-types";
 import React from "react";
@@ -12,6 +13,9 @@ const Statistics = ({ gitStatistics }) => {
   const {
     commitsTotalNumber,
     allCommits,
+    time,
+    mergeCommits,
+    repositoryTitle,
   } = gitStatistics;
 
   const createDataForTimeDistributionTime = () => {
@@ -48,7 +52,7 @@ const Statistics = ({ gitStatistics }) => {
       ],
       datasets: [
         {
-          label: "Commits",
+          label: "Commits per hour of day",
           backgroundColor: "rgba(255,99,132,0.2)",
           borderColor: "rgba(255,99,132,1)",
           borderWidth: 1,
@@ -77,7 +81,7 @@ const Statistics = ({ gitStatistics }) => {
       labels: Object.keys(dict),
       datasets: [
         {
-          label: "Commits for hours",
+          label: "Commits per days",
           backgroundColor: "rgba(255,99,132,0.2)",
           borderColor: "rgba(255,99,132,1)",
           borderWidth: 1,
@@ -128,7 +132,7 @@ const Statistics = ({ gitStatistics }) => {
         "Thursday",
         "Friday",
         "Saturday",
-        "Sunday"
+        "Sunday",
       ],
       datasets: [
         {
@@ -151,8 +155,8 @@ const Statistics = ({ gitStatistics }) => {
       let author = allCommits[step].author;
       dict[author] ? (dict[author] += 1) : (dict[author] = 1);
     }
-    return Object.keys(dict).length
-  }
+    return Object.keys(dict).length;
+  };
 
   return (
     <>
@@ -165,43 +169,149 @@ const Statistics = ({ gitStatistics }) => {
           labelText="Contributors"
           value={getContributorsNumber()}
         />
+        <NumbericalStatistics labelText="Merge commits" value={mergeCommits} />
+        <NumbericalStatistics labelText="Computation time" value={time + "s"} />
       </Wrapper>
-      <Bar
-        data={createDataForTimeDistributionTime}
-        width={660}
-        height={330}
-        options={{
-          responsive: false,
-          maintainAspectRatio: true,
-        }}
-      />
-      <Bar
-        data={createDataForAverageDailyCommits}
-        width={660}
-        height={330}
-        options={{
-          responsive: false,
-          maintainAspectRatio: true,
-        }}
-      />
-      <Bar
-        data={createCommitsOnWeekDay}
-        width={660}
-        height={330}
-        options={{
-          responsive: false,
-          maintainAspectRatio: true,
-        }}
-      />
-      <Bar
-        data={createDataForCommitsAuthor}
-        width={660}
-        height={330}
-        options={{
-          responsive: false,
-          maintainAspectRatio: true,
-        }}
-      />
+      <div style={{ margin: "25px" }}>{repositoryTitle}</div>
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <Bar
+            data={createDataForTimeDistributionTime}
+            width={1000}
+            height={400}
+            style={{ margin: "10px" }}
+            options={{
+              responsive: false,
+              maintainAspectRatio: true,
+              legend: {
+                labels: {
+                  fontColor: "white",
+                  fontSize: 18
+                },
+              },
+              scales: {
+                yAxes: [
+                  {
+                    ticks: {
+                      fontColor: "white",
+                      fontSize: 10
+                    },
+                  },
+                ],
+                xAxes: [
+                  {
+                    ticks: {
+                      fontColor: "white",
+                      fontSize: 12
+                    },
+                  },
+                ],
+              },
+            }}
+          />
+          <Line
+            data={createDataForAverageDailyCommits}
+            width={1000}
+            height={400}
+            options={{
+              responsive: false,
+              maintainAspectRatio: true,
+              legend: {
+                labels: {
+                  fontColor: "white",
+                  fontSize: 18,
+                },
+              },
+              scales: {
+                yAxes: [
+                  {
+                    ticks: {
+                      fontColor: "white",
+                      fontSize: 10
+                    },
+                  },
+                ],
+                xAxes: [
+                  {
+                    ticks: {
+                      fontColor: "white",
+                      fontSize: 12
+                    },
+                  },
+                ],
+              },
+            }}
+          />
+        </div>
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <Bar
+            data={createCommitsOnWeekDay}
+            width={1000}
+            height={400}
+            options={{
+              responsive: false,
+              maintainAspectRatio: true,
+              legend: {
+                labels: {
+                  fontColor: "white",
+                  fontSize: 18,
+                },
+              },
+              scales: {
+                yAxes: [
+                  {
+                    ticks: {
+                      fontColor: "white",
+                      fontSize: 10
+                    },
+                  },
+                ],
+                xAxes: [
+                  {
+                    ticks: {
+                      fontColor: "white",
+                      fontSize: 12
+                    },
+                  },
+                ],
+              },
+            }}
+          />
+          <Bar
+            data={createDataForCommitsAuthor}
+            width={1000}
+            height={400}
+            options={{
+              responsive: false,
+              maintainAspectRatio: true,
+              legend: {
+                labels: {
+                  fontColor: "white",
+                  fontSize: 18,
+                },
+              },
+              scales: {
+                yAxes: [
+                  {
+                    ticks: {
+                      fontColor: "white",
+                      fontSize: 10
+                    },
+                  },
+                ],
+                xAxes: [
+                  {
+                    ticks: {
+                      fontColor: "white",
+                      fontSize: 12
+                    },
+                  },
+                ],
+              },
+            }}
+          />
+        </div>
+      </div>
     </>
   );
 };
@@ -209,9 +319,9 @@ const Statistics = ({ gitStatistics }) => {
 Statistics.propTypes = {
   gitStatistics: {
     commitsTotalNumber: PropTypes.number,
-    filesCommitedTogetherAverage: PropTypes.number,
-    filesCommitedTogetherMax: PropTypes.number,
-    sumOfLinesInRepository: PropTypes.number,
+    time: PropTypes.number,
+    mergeCommits: PropTypes.number,
+    repositoryTitle: PropTypes.string,
     allCommits: PropTypes.arrayOf(
       PropTypes.shape({
         author: PropTypes.string,

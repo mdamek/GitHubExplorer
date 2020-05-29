@@ -22,9 +22,7 @@ const GlobalWrapper = {
 };
 
 const Entrance = ({ setResultAvaliable, setGitStatistics }) => {
-  const [gitLink, setGitLink] = useState(
-    "https://github.com/mdamek/TampermonkeyScripts.git"
-  );
+  const [gitLink, setGitLink] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [blocking, setBlocking] = useState(false);
@@ -32,7 +30,7 @@ const Entrance = ({ setResultAvaliable, setGitStatistics }) => {
     event.preventDefault();
     startBlocking();
     const endocedGithubUri = encodeURIComponent(gitLink);
-    setGitLink("https://github.com/mdamek/TampermonkeyScripts.git");
+    
     setStartDate("");
     setEndDate("");
     let validUrl = "api/GitStatistics?gitRepositoryAddress=" + endocedGithubUri;
@@ -54,10 +52,14 @@ const Entrance = ({ setResultAvaliable, setGitStatistics }) => {
       .then((json) => {
         setGitStatistics({
           commitsTotalNumber: json.commitsTotalNumber,
-          allCommits: json.allCommits
+          allCommits: json.allCommits,
+          time: json.time,
+          mergeCommits: json.mergeCommits,
+          repositoryTitle: gitLink
         });
         stopBlocking();
         setResultAvaliable(true);
+        setGitLink("");
       })
       .catch((error) => {
         console.log(error);
