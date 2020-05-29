@@ -162,7 +162,7 @@ const Statistics = ({ gitStatistics }) => {
     <>
       <Wrapper>
         <NumbericalStatistics
-          labelText="Commits total"
+          labelText="Commits"
           value={commitsTotalNumber}
         />
         <NumbericalStatistics
@@ -177,8 +177,8 @@ const Statistics = ({ gitStatistics }) => {
         <div style={{ display: "flex", flexDirection: "row" }}>
           <Bar
             data={createDataForTimeDistributionTime}
-            width={1000}
-            height={400}
+            width={900}
+            height={350}
             style={{ margin: "10px" }}
             options={{
               responsive: false,
@@ -211,8 +211,8 @@ const Statistics = ({ gitStatistics }) => {
           />
           <Line
             data={createDataForAverageDailyCommits}
-            width={1000}
-            height={400}
+            width={900}
+            height={350}
             options={{
               responsive: false,
               maintainAspectRatio: true,
@@ -246,8 +246,8 @@ const Statistics = ({ gitStatistics }) => {
         <div style={{ display: "flex", flexDirection: "row" }}>
           <Bar
             data={createCommitsOnWeekDay}
-            width={1000}
-            height={400}
+            width={900}
+            height={350}
             options={{
               responsive: false,
               maintainAspectRatio: true,
@@ -279,8 +279,8 @@ const Statistics = ({ gitStatistics }) => {
           />
           <Bar
             data={createDataForCommitsAuthor}
-            width={1000}
-            height={400}
+            width={900}
+            height={350}
             options={{
               responsive: false,
               maintainAspectRatio: true,
