@@ -54,10 +54,7 @@ const Entrance = ({ setResultAvaliable, setGitStatistics }) => {
       .then((json) => {
         setGitStatistics({
           commitsTotalNumber: json.commitsTotalNumber,
-          filesCommitedTogetherAverage: json.filesCommitedTogetherAverage,
-          filesCommitedTogetherMax: json.filesCommitedTogetherMax,
-          sumOfLinesInRepository: json.sumOfLinesInRepository,
-          allCommits: json.allCommits,
+          allCommits: json.allCommits
         });
         stopBlocking();
         setResultAvaliable(true);

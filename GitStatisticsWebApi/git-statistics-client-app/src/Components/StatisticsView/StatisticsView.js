@@ -11,9 +11,6 @@ const Wrapper = styled.div`
 const Statistics = ({ gitStatistics }) => {
   const {
     commitsTotalNumber,
-    filesCommitedTogetherAverage,
-    filesCommitedTogetherMax,
-    sumOfLinesInRepository,
     allCommits,
   } = gitStatistics;
 
@@ -80,7 +77,7 @@ const Statistics = ({ gitStatistics }) => {
       labels: Object.keys(dict),
       datasets: [
         {
-          label: "Commits",
+          label: "Commits for hours",
           backgroundColor: "rgba(255,99,132,0.2)",
           borderColor: "rgba(255,99,132,1)",
           borderWidth: 1,
@@ -103,7 +100,7 @@ const Statistics = ({ gitStatistics }) => {
       labels: Object.keys(dict),
       datasets: [
         {
-          label: "Commits",
+          label: "Commits per author",
           backgroundColor: "rgba(255,99,132,0.2)",
           borderColor: "rgba(255,99,132,1)",
           borderWidth: 1,
@@ -116,6 +113,47 @@ const Statistics = ({ gitStatistics }) => {
     return data;
   };
 
+  const createCommitsOnWeekDay = () => {
+    let days = new Array(7).fill(0);
+    for (let step = 0; step < allCommits.length; step++) {
+      let day = new Date(allCommits[step].date).getDay();
+      days[day] += 1;
+    }
+
+    const data = {
+      labels: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      datasets: [
+        {
+          label: "Commits per week day",
+          backgroundColor: "rgba(255,99,132,0.2)",
+          borderColor: "rgba(255,99,132,1)",
+          borderWidth: 1,
+          hoverBackgroundColor: "rgba(255,99,132,0.4)",
+          hoverBorderColor: "rgba(255,99,132,1)",
+          data: days,
+        },
+      ],
+    };
+    return data;
+  };
+
+  const getContributorsNumber = () => {
+    var dict = {};
+    for (let step = 0; step < allCommits.length; step++) {
+      let author = allCommits[step].author;
+      dict[author] ? (dict[author] += 1) : (dict[author] = 1);
+    }
+    return Object.keys(dict).length
+  }
+
   return (
     <>
       <Wrapper>
@@ -124,16 +162,8 @@ const Statistics = ({ gitStatistics }) => {
           value={commitsTotalNumber}
         />
         <NumbericalStatistics
-          labelText="Lines of code"
-          value={sumOfLinesInRepository}
-        />
-        <NumbericalStatistics
-          labelText="Avg commited together"
-          value={filesCommitedTogetherAverage}
-        />
-        <NumbericalStatistics
-          labelText="Max commited together"
-          value={filesCommitedTogetherMax}
+          labelText="Contributors"
+          value={getContributorsNumber()}
         />
       </Wrapper>
       <Bar
@@ -147,6 +177,15 @@ const Statistics = ({ gitStatistics }) => {
       />
       <Bar
         data={createDataForAverageDailyCommits}
+        width={660}
+        height={330}
+        options={{
+          responsive: false,
+          maintainAspectRatio: true,
+        }}
+      />
+      <Bar
+        data={createCommitsOnWeekDay}
         width={660}
         height={330}
         options={{

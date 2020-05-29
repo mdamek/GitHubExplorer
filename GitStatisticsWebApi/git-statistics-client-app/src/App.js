@@ -10,9 +10,6 @@ const App = () => {
   const [resultAvaliable, setResultAvaliable] = useState(false);
   const [gitStatistics, setGitStatistics] = useState({
     commitsTotalNumber: 0,
-    filesCommitedTogetherAverage: 0,
-    filesCommitedTogetherMax: 0,
-    sumOfLinesInRepository: 0,
     allCommits: [
       {
         author: "",

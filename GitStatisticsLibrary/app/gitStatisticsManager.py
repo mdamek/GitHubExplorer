@@ -4,15 +4,10 @@ import os, shutil, stat
 from datetime import datetime
 from os import path
 from pydriller import RepositoryMining
-from pydriller.metrics.process.change_set import ChangeSet
-from pydriller.metrics.process.lines_count import LinesCount
 
 class GitStatistics:
-    def __init__(self, commitsTotalNumber, filesCommitedTogetherAverage, filesCommitedTogetherMax, sumOfLinesInRepository, allCommits):
+    def __init__(self, commitsTotalNumber, allCommits):
         self.commitsTotalNumber = commitsTotalNumber
-        self.filesCommitedTogetherAverage = filesCommitedTogetherAverage
-        self.filesCommitedTogetherMax = filesCommitedTogetherMax
-        self.sumOfLinesInRepository = sumOfLinesInRepository
         self.allCommits = allCommits
 
     def toJSON(self):
@@ -52,23 +47,9 @@ def getGitStatistics(gitRepositoryPath, startDate, endDate):
     if commitsTotalNumber is 0:
         shutil.rmtree( pathToTemporaryRepository, onerror = on_rm_error )
         return GitStatistics(0, 0, 0, 0, [])
-    firstCommitHash = allCommits[0].hash
-    lastCommitHash = allCommits[len(allCommits) - 1].hash
-
-    filesCommitedTogether = ChangeSet(path_to_repo=pathToTemporaryRepository,
-                   from_commit=firstCommitHash,
-                   to_commit=lastCommitHash)
-
-    linesDictionary = LinesCount(path_to_repo=pathToTemporaryRepository,
-                    from_commit=firstCommitHash,
-                    to_commit=lastCommitHash)
-
-    sumOfLinesInRepository = 0
-    for file in linesDictionary.count():
-        sumOfLinesInRepository += linesDictionary.count()[file]
 
     shutil.rmtree( pathToTemporaryRepository, onerror = on_rm_error )
 
-    return GitStatistics(commitsTotalNumber, filesCommitedTogether.avg(), filesCommitedTogether.max(), sumOfLinesInRepository, allCommits)          
+    return GitStatistics(commitsTotalNumber, allCommits)          
     
 
