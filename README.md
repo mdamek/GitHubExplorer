@@ -7,6 +7,11 @@
 
 The user can provide a link to the repository located on GitHub together with the date range he is interested in. The results contain basic information about commits in the repository and detailed changes over time within the history of the repository. Application is designed using components written in Python, C # and JavaScript with React.js. 
 
+
+![Picture1](Pictures/Picture1.JPG)
+![Picture2](Pictures/Picture2.JPG)
+![Picture3](Pictures/Picture3.JPG)
+
 ## 2. Requirements:
 
 ### PythonApp:
