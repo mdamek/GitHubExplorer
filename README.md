@@ -1,6 +1,13 @@
 # GitHubRepositoryExplorer
 
-## 1. Requirements:
+#### A web application that allows you to analyze and visualize the repository's development history over time.  
+
+
+## 1. About 
+
+The user can provide a link to the repository located on GitHub together with the date range he is interested in. The results contain basic information about commits in the repository and detailed changes over time within the history of the repository. Application is designed using components written in Python, C # and JavaScript with React.js. 
+
+## 2. Requirements:
 
 ### PythonApp:
 - Python 3.7
@@ -17,7 +24,7 @@
 
 The application works on both Windows and Linux environment.
 
-## 2. Run instruction
+## 3. Run instruction
 
 Further steps assume that the packages required to run have been installed.
 
